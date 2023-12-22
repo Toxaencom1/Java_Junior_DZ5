@@ -10,11 +10,12 @@ import java.util.Map;
 public class Server {
     private final ServerSocket serverSocket;
     private final Map<String, String> whiteList = new HashMap<>() {{
-        put("anton", "123");
-        put("taxah", "123");
         put("123", "123");
         put("test", "123");
         put("qwerty", "123");
+        put("anton", "123");
+        put("taxah", "123");
+        put("stanislav", "");
     }};
 
     public Server(ServerSocket serverSocket) {
@@ -27,22 +28,27 @@ public class Server {
                 Socket socket = serverSocket.accept();
                 System.out.println("New Client connected!");
                 ClientManager clientManager = new ClientManager(socket);
-                boolean flag = false;
+                boolean authorised = false;
+                boolean availableName = clientManager.checkName(clientManager.getName());
                 for (Map.Entry<String, String> account : whiteList.entrySet()) {
                     if (clientManager.getName().equalsIgnoreCase(account.getKey()) &&
-                            clientManager.getPass().equals(account.getValue())) {
+                            clientManager.getPass().equals(account.getValue()) && availableName) {
                         clientManager.setAuthorized(true);
+                        clientManager.addClientToList();
                         clientManager.broadcastMessage("Server: \"" + clientManager.getName() + "\" connected to chat.");
                         System.out.println("\"" + clientManager.getName() + "\" connected to chat.");
-                        flag = true;
+                        authorised = true;
                         Thread thread = new Thread(clientManager);
                         thread.start();
                         break;
                     }
                 }
-                if (!flag) {
+                if (!authorised) {
+                    clientManager.addClientToNoAuthorisedList();
                     System.out.println("New Client Authorisation failed!");
-                    clientManager.answer("Authorisation failed!!!");
+                    clientManager.accessDeniedAnswer((availableName) ? "Authorisation failed!!!\nRe-Run client!!!" :
+                            "User with your account is already logged\n" +
+                                    "Authorisation failed!!!\nRe-Run client!!!");
                 }
             }
         } catch (IOException e) {
