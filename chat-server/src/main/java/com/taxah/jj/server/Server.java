@@ -7,6 +7,10 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a simple chat server that manages client connections
+ * with access by whitelist
+ */
 public class Server {
     private final ServerSocket serverSocket;
     private final Map<String, String> whiteList = new HashMap<>() {{
@@ -18,10 +22,18 @@ public class Server {
         put("stanislav", "");
     }};
 
+    /**
+     * Constructs a Server with the specified ServerSocket.
+     *
+     * @param serverSocket The ServerSocket associated with the server.
+     */
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
     }
 
+    /**
+     * Runs the chat server, handling client connections and authorizations.
+     */
     public void runServer() {
         try {
             while (!serverSocket.isClosed()) {
@@ -56,6 +68,9 @@ public class Server {
         }
     }
 
+    /**
+     * Closes the server socket.
+     */
     private void closeSocket() {
         try {
             if (serverSocket != null)

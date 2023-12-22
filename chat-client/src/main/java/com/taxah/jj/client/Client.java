@@ -11,6 +11,13 @@ public class Client {
     private BufferedWriter bufferedWriter;
     private BufferedReader bufferedReader;
 
+    /**
+     * Constructs a new Client with the specified socket, username and password fields.
+     *
+     * @param socket The socket associated with the client connection.
+     * @param userName - your username.
+     * @param password - your password.
+     */
     public Client(Socket socket, String userName, String password) {
         this.socket = socket;
         name = userName;
@@ -24,7 +31,7 @@ public class Client {
     }
 
     /**
-     * Слушатель для входящих сообщений
+     * Listener for incoming messages
      */
     public void listenForMessage() {
         new Thread(new Runnable() {
@@ -44,7 +51,7 @@ public class Client {
     }
 
     /**
-     * Отправить сообщение
+     * Send a message
      */
     public void sendMessage() {
         try {
@@ -60,12 +67,24 @@ public class Client {
         }
     }
 
-    private void writeFromBuffer(String str) throws IOException {
-        bufferedWriter.write(str);
+    /**
+     * Method for DRY principals of programming
+     * @param message - message to be sent
+     * @throws IOException - can be thrown
+     */
+    private void writeFromBuffer(String message) throws IOException {
+        bufferedWriter.write(message);
         bufferedWriter.newLine();
         bufferedWriter.flush();
     }
 
+    /**
+     * Method to close all opened resources
+     *
+     * @param socket The socket associated with the client connection.
+     * @param bufferedReader  -  The BufferedReader to be closed.
+     * @param bufferedWriter  -  The BufferedWriter to be closed.
+     */
     private void closeEverything(Socket socket, BufferedReader bufferedReader, BufferedWriter bufferedWriter) {
         try {
             if (bufferedReader != null) {

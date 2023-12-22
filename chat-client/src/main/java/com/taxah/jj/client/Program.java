@@ -16,6 +16,9 @@ import java.util.Scanner;
 доработайте поддержку отправки личных сообщений, небольшую подсказку я дал в конце семинара.
  */
 
+/**
+ *  Start point of client app
+ */
 public class Program {
     public static void main(String[] args) {
         try {

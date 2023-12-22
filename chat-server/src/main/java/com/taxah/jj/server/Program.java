@@ -13,6 +13,10 @@ import java.net.UnknownHostException;
 2*. Подумайте, как организовать отправку ЛИЧНЫХ сообщений в контексте нашего чата,
 доработайте поддержку отправки личных сообщений, небольшую подсказку я дал в конце семинара.
  */
+
+/**
+ *  Start point of server app
+ */
 public class Program {
     public static void main(String[] args) {
         System.out.println("Start Server...");
